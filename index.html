@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR Code Generator for Farmers</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; }
+    input, textarea { width: 100%; margin: 10px 0; padding: 8px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    #qrcode img { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>🧑‍🌾 किसान के लिए QR Code Generator</h2>
+  <form id="qrForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <textarea id="address" placeholder="Address" required></textarea>
+    <input type="tel" id="mobile" placeholder="Mobile Number" required />
+    <input type="text" id="farmerId" placeholder="Farmer ID Number" required />
+    <input type="date" id="dob" placeholder="Date of Birth" required />
+    <button type="submit">Generate QR Code</button>
+  </form>
+
+  <div id="qrcode"></div>
+
+  <script>
+    document.getElementById('qrForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const address = document.getElementById('address').value;
+      const mobile = document.getElementById('mobile').value;
+      const farmerId = document.getElementById('farmerId').value;
+      const dob = document.getElementById('dob').value;
+
+      const qrData = `Name: ${name}\nAddress: ${address}\nMobile: ${mobile}\nFarmer ID: ${farmerId}\nDOB: ${dob}`;
+
+      QRCode.toDataURL(qrData, function (err, url) {
+        if (err) return console.error(err);
+        document.getElementById('qrcode').innerHTML = `<img src="${url}" alt="QR Code" /><br><a href="${url}" download="farmer_qrcode.png">⬇️ Download QR Code</a>`;
+      });
+    });
+  </script>
+</body>
+</html>
